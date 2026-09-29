@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import radarLogo from '../assets/radar-de-talento-logo-sinfondo.png';
+import { AREAS_RADAR } from '../data/competencias';
+
+const nivelStyle: Record<number, { dot: string; text: string; bg: string }> = {
+  4: { dot: 'bg-emerald-500', text: 'text-emerald-700', bg: 'bg-emerald-50' },
+  3: { dot: 'bg-lime-500', text: 'text-lime-700', bg: 'bg-lime-50' },
+  2: { dot: 'bg-amber-500', text: 'text-amber-700', bg: 'bg-amber-50' },
+  1: { dot: 'bg-brand-red', text: 'text-brand-red', bg: 'bg-brand-red-50' },
+};
+---
+
+<section id="radar" class="relative bg-brand-red-50/40 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <h2 class="font-display text-4xl font-bold text-ink-900 sm:text-5xl">N1 — Radar de Talento</h2>
+        <p class="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-ink-500">
+          Fuente: Gestión del Talento Perú
+        </p>
+      </div>
+      <Image src={radarLogo} alt="Radar de Talento" width={700} height={193} class="h-16 w-auto sm:h-20" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="reveal sticky top-[81px] z-20 -mx-5 mt-10 flex gap-2 overflow-x-auto bg-brand-red-50/90 px-5 py-3 shadow-[0_-1px_0_rgba(0,0,0,0.08)] backdrop-blur sm:mx-0 sm:rounded-full sm:border sm:border-ink-200 sm:px-2">
+      {
+        AREAS_RADAR.map((area) => (
+          <a
+            href={`#radar-${area.slug}`}
+            data-quickjump-link="radar"
+            class="quickjump-pill shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-ink-700 transition hover:bg-white"
+          >
+            {area.nombre}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 space-y-20">
+      {
+        AREAS_RADAR.map((area, areaIndex) => (
+          <div id={`radar-${area.slug}`} class="scroll-mt-32">
+            <div class="reveal relative overflow-hidden rounded-3xl bg-radar-navy" style="container-type: inline-size;">
+              <span
+                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none font-display font-black leading-none text-white/10"
+                style="font-size: clamp(5rem, 20cqw, 12rem);"
+              >
+                {String(areaIndex + 1).padStart(2, '0')}
+              </span>
+              <div class="relative flex flex-col gap-3 p-8 sm:p-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-white/70">
+                  Área {areaIndex + 1} de {AREAS_RADAR.length}
+                </span>
+                <h3 class="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl">{area.nombre}</h3>
+              </div>
+            </div>
+            <p class="reveal mt-5 text-ink-500">{area.descripcion}</p>
+
+            <div class="mt-8 grid gap-4">
+              {area.competencias.map((comp) => (
+                <div data-level-card class="reveal overflow-hidden rounded-2xl border border-ink-200 bg-white transition hover:border-[var(--color-radar-navy)]/30">
+                  <button
+                    type="button"
+                    data-accordion-toggle
+                    aria-expanded="false"
+                    class="flex w-full items-start justify-between gap-4 px-6 py-5 text-left"
+                  >
+                    <div>
+                      <h4 class="font-display text-lg font-bold text-ink-900">{comp.nombre}</h4>
+                      <p class="mt-1.5 text-sm text-ink-500">{comp.descripcion}</p>
+                    </div>
+                    <span class="mt-1 grid size-9 shrink-0 place-items-center rounded-full bg-ink-100 text-ink-700">
+                      <svg data-chevron width="14" height="14" viewBox="0 0 16 16" fill="none" class="transition-transform">
+                        <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                      </svg>
+                    </span>
+                  </button>
+
+                  <div class="accordion-panel">
+                    <div>
+                      <div class="border-t border-ink-100 bg-ink-100/30 px-6 py-6">
+                        <div class="flex flex-wrap gap-1.5">
+                          {comp.niveles.map((n, ni) => (
+                            <button
+                              type="button"
+                              data-level-btn={n.id}
+                              class:list={[
+                                'level-btn rounded-full border px-3.5 py-1.5 text-xs font-bold transition',
+                                nivelStyle[n.id].text,
+                                ni === 1 ? 'is-active' : '',
+                              ]}
+                              style={`border-color: currentColor`}
+                            >
+                              <span class={`mr-1.5 inline-block size-1.5 rounded-full ${nivelStyle[n.id].dot} align-middle`} />
+                              {n.nombre}
+                            </button>
+                          ))}
+                        </div>
+
+                        {comp.niveles.map((n, ni) => (
+                          <div
+                            data-level-panel={n.id}
+                            class:list={['mt-4 rounded-xl p-5', nivelStyle[n.id].bg, ni === 1 ? '' : 'hidden']}
+                          >
+                            <ul class="space-y-2.5">
+                              {n.items.map((item) => (
+                                <li class="flex items-start gap-2.5 text-sm text-ink-800">
+                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class={`mt-0.5 shrink-0 ${nivelStyle[n.id].text}`}>
+                                    <path d="M3 8.5l3.2 3.2L13 4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                  </svg>
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .accordion-panel > div {
+    overflow: hidden;
+  }
+  .level-btn {
+    opacity: 0.55;
+  }
+  .level-btn.is-active {
+    opacity: 1;
+    box-shadow: 0 0 0 1px currentColor inset;
+  }
+  .quickjump-pill.is-active {
+    background: var(--color-radar-navy);
+    color: white;
+  }
+</style>

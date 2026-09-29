@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import isotipo from '../assets/bigtalent-logo.png';
+
+const links = [
+  { href: '#inicio', label: 'Inicio' },
+  { href: '#guia', label: 'Guía' },
+  { href: '#mapa', label: 'Mapa' },
+  { href: '#radar', label: 'RADAR' },
+  { href: '#crecer', label: 'CRECER' },
+  { href: '#categoria', label: 'Categoría' },
+  { href: '#escala', label: 'Escala de medición' },
+];
+---
+
+<header class="fixed inset-x-0 top-0 z-50">
+  <div class="h-[3px] w-full bg-ink-900/10">
+    <div
+      data-progress-bar
+      class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-brand-red to-brand-yellow"
+    >
+    </div>
+  </div>
+  <div class="mx-auto max-w-7xl px-4 pt-3 sm:px-6">
+    <nav
+      class="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-ink-900/80 px-5 py-3 shadow-lg shadow-black/20 backdrop-blur-md sm:px-8"
+    >
+      <a href="#inicio" class="flex shrink-0 items-center">
+        <Image src={isotipo} alt="BIGTALENT" width={1420} height={876} class="h-10 w-auto" />
+      </a>
+
+      <ul class="hidden items-center gap-1 lg:flex">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                data-nav-link
+                class="rounded-full px-3.5 py-2 text-sm font-medium text-white/60 transition hover:text-white [&.is-active]:bg-brand-red [&.is-active]:text-white"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <button
+        type="button"
+        data-mobile-nav-toggle
+        aria-expanded="false"
+        aria-label="Abrir menú"
+        class="grid size-10 place-items-center rounded-lg border border-white/15 text-white lg:hidden"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+          ><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+          ></path></svg
+        >
+      </button>
+    </nav>
+
+    <div
+      data-mobile-nav-panel
+      class="grid max-h-0 grid-rows-[0fr] overflow-hidden rounded-2xl bg-ink-900/95 backdrop-blur-md transition-[max-height,margin-top] duration-300 [&.is-open]:mt-2 [&.is-open]:max-h-96"
+    >
+      <ul class="flex flex-col gap-1 px-5 py-3">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5">
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</header>
+
+<style>
+  [data-mobile-nav-panel].is-open {
+    max-height: 24rem;
+  }
+</style>

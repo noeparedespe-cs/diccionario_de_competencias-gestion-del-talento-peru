@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import botella2d from '../../assets/botella2d.png';
+import ThemeToggleButton from './ThemeToggleButton.astro';
+
+const watermarkRows = Array.from({ length: 10 }, (_, i) => i);
+---
+
+<section id="inicio-tipo-2" class="theme noise relative min-h-[100svh] overflow-hidden pt-24" data-theme="light">
+  <ThemeToggleButton />
+
+    <div class="pointer-events-none absolute inset-0 -rotate-6 scale-125 select-none overflow-hidden opacity-[0.06]" aria-hidden="true">
+    {watermarkRows.map((row) => (
+      <p class="font-wordmark t-fg m-0 whitespace-nowrap text-3xl leading-[2.4] tracking-widest" style={row % 2 === 0 ? 'transform: translateX(0)' : 'transform: translateX(4rem)'}>
+        {Array.from({ length: 8 }, () => 'BIGTALENT').join('   ·   ')}
+      </p>
+    ))}
+  </div>
+
+    <div class="relative mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl flex-col justify-center px-6 sm:px-10 lg:px-16">
+    <div class="flex flex-col items-start gap-1">
+      <p class="t-outline-text font-wordmark m-0 select-none text-[min(11vh,13vw)] leading-[0.9] sm:text-[min(13vh,9vw)]">
+        B<span id="tex8-i-letter" class="relative inline-block text-transparent [-webkit-text-stroke:0]">I</span>G
+      </p>
+      <p class="text-gradient-warm font-wordmark m-0 select-none text-[min(6vh,7vw)] leading-[0.9] tracking-wide sm:text-[min(7vh,5vw)]">
+        TALENT
+      </p>
+    </div>
+
+    <p class="t-fg-muted reveal font-display mt-8 max-w-sm text-base font-medium sm:text-lg">
+      Grandes Marcas, <span class="t-fg font-bold">Grandes Talentos.</span>
+    </p>
+
+    <div class="mt-8 grid w-full max-w-md gap-3 sm:grid-cols-2">
+      <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+        <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Alcance</p>
+        <p class="t-fg-muted mt-1 text-sm">Niveles N1 y N2 evaluados en Crecer y Radar de Talento</p>
+      </div>
+      <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+        <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Uso</p>
+        <p class="t-fg-muted mt-1 text-sm">Base para evaluación, feedback y desarrollo</p>
+      </div>
+    </div>
+  </div>
+
+    <div id="tex8-bottle-slot" class="absolute z-10">
+    <div class="pointer-events-none absolute -inset-x-[150%] -inset-y-[35%] rounded-full bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,rgba(198,24,24,0.22),transparent_72%)]"></div>
+    <model-viewer
+      id="bottle-viewer-v8"
+      src="/models/botella3d.glb"
+      poster={botella2d.src}
+      alt="Botella BIG Cola en 3D"
+      camera-orbit="6deg 78deg 100%"
+      field-of-view="26deg"
+      exposure="1.15"
+      shadow-intensity="0"
+      camera-controls
+      disable-zoom
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
+      class="pointer-events-auto relative h-full w-full cursor-grab active:cursor-grabbing"
+      style="--poster-color: transparent; background-color: transparent;"
+    >
+      <Image slot="poster" src={botella2d} alt="Botella BIG Cola" width={520} height={780} class="mx-auto h-full w-auto object-contain" loading="eager" />
+    </model-viewer>
+  </div>
+</section>
+
+<script>
+  import '@google/model-viewer';
+  import { initBottleSway } from '../../scripts/bottle-sway';
+  import { initThemeToggle } from '../../scripts/theme-toggle';
+
+  initThemeToggle('inicio-tipo-2');
+
+  const viewer = document.querySelector<HTMLElement>('model-viewer#bottle-viewer-v8');
+  if (viewer) {
+    initBottleSway(viewer, { amplitude: 22, swaySpeed: 0.0003, defaultPhi: 78, radius: '100%' });
+  }
+
+  const section = document.querySelector<HTMLElement>('#inicio-tipo-2');
+  const iLetter = document.querySelector<HTMLElement>('#tex8-i-letter');
+  const slot = document.querySelector<HTMLElement>('#tex8-bottle-slot');
+
+  const positionBottle = () => {
+    if (!section || !iLetter || !slot) return;
+    const sectionRect = section.getBoundingClientRect();
+    const iRect = iLetter.getBoundingClientRect();
+    const width = Math.max(iRect.width, 44);
+    const centerX = iRect.left + iRect.width / 2;
+    slot.style.left = `${centerX - width / 2 - sectionRect.left}px`;
+    slot.style.top = `${iRect.top - sectionRect.top}px`;
+    slot.style.width = `${width}px`;
+    slot.style.height = `${iRect.height}px`;
+  };
+
+  positionBottle();
+  document.fonts?.ready.then(positionBottle);
+  window.addEventListener('resize', positionBottle);
+</script>

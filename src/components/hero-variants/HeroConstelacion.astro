@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets';
+import botella2d from '../../assets/botella2d.png';
+import ThemeToggleButton from './ThemeToggleButton.astro';
+
+const nodes = [
+  { label: 'N1', x: 12, y: 28 },
+  { label: 'N2', x: 7, y: 52 },
+  { label: 'CRECER', x: 15, y: 78 },
+  { label: 'RADAR DE TALENTO', x: 88, y: 24 },
+  { label: 'FEEDBACK', x: 93, y: 50 },
+  { label: 'DESARROLLO', x: 85, y: 76 },
+];
+const hub = { x: 50, y: 56 };
+---
+
+<section id="inicio-textura-6" class="theme noise relative min-h-[100svh] overflow-hidden pt-24" data-theme="dark">
+  <ThemeToggleButton />
+  <div class="t-grid-lines pointer-events-none absolute inset-0 opacity-100"></div>
+
+    <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-70" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    {nodes.map((n, i) => (
+      <line
+        x1={hub.x}
+        y1={hub.y}
+        x2={n.x}
+        y2={n.y}
+        class="net-line"
+        stroke={i % 2 === 0 ? 'rgba(198,24,24,0.55)' : 'rgba(246,198,18,0.6)'}
+        stroke-width="0.18"
+        stroke-dasharray="1.2 1.4"
+        style={`animation-delay:${i * 0.25}s`}
+      />
+    ))}
+    <line x1={nodes[0].x} y1={nodes[0].y} x2={nodes[1].x} y2={nodes[1].y} class="net-line-faint" stroke="rgba(198,24,24,0.3)" stroke-width="0.1" stroke-dasharray="0.8 1.2" />
+    <line x1={nodes[1].x} y1={nodes[1].y} x2={nodes[2].x} y2={nodes[2].y} class="net-line-faint" stroke="rgba(198,24,24,0.3)" stroke-width="0.1" stroke-dasharray="0.8 1.2" />
+    <line x1={nodes[3].x} y1={nodes[3].y} x2={nodes[4].x} y2={nodes[4].y} class="net-line-faint" stroke="rgba(246,198,18,0.3)" stroke-width="0.1" stroke-dasharray="0.8 1.2" />
+    <line x1={nodes[4].x} y1={nodes[4].y} x2={nodes[5].x} y2={nodes[5].y} class="net-line-faint" stroke="rgba(246,198,18,0.3)" stroke-width="0.1" stroke-dasharray="0.8 1.2" />
+    <circle cx={hub.x} cy={hub.y} r="1.6" class="net-hub" fill="rgba(255,255,255,0.85)" />
+    {nodes.map((n, i) => (
+      <circle cx={n.x} cy={n.y} r="1" class="net-node" fill={i % 2 === 0 ? '#c61818' : '#f6c612'} style={`animation-delay:${i * 0.4}s`} />
+    ))}
+  </svg>
+
+    {nodes.map((n, i) => (
+    <span
+      class="net-label t-fg-muted font-display pointer-events-none absolute text-[0.65rem] font-bold uppercase tracking-[0.25em] opacity-0 sm:text-xs"
+      style={`left:${n.x}%;top:${n.y}%;transform:translate(${n.x < 50 ? '-4px' : '4px'},-50%) translateX(${n.x < 50 ? '-100%' : '0%'});animation-delay:${i * 0.4 + 0.6}s;`}
+    >
+      {n.label}
+    </span>
+  ))}
+
+    <div class="pointer-events-none absolute -left-20 top-[20%] size-96 rounded-full bg-brand-red/12 blur-[120px] animate-float-slow" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-20 bottom-[15%] size-96 rounded-full bg-brand-yellow/16 blur-[120px] animate-float-slower" aria-hidden="true"></div>
+
+    <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 sm:gap-4" aria-hidden="true">
+    <p class="t-outline-text font-wordmark m-0 select-none whitespace-nowrap text-center text-[min(26vh,28vw)] leading-none sm:text-[min(32vh,22vw)] lg:text-[min(36vh,16vw)]">
+      B<span id="tex6-i-letter" class="inline-block text-transparent [-webkit-text-stroke:0]">I</span>G
+    </p>
+    <p class="text-gradient-warm font-wordmark m-0 select-none whitespace-nowrap text-center text-[min(26vh,13vw)] leading-none sm:text-[min(32vh,10vw)] lg:text-[min(36vh,8vw)]">
+      TALENT
+    </p>
+  </div>
+
+    <div id="tex6-bottle-slot" class="absolute z-10">
+    <div class="pointer-events-none absolute -inset-x-[150%] -inset-y-[35%] rounded-full bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,rgba(255,255,255,0.18),transparent_72%)]"></div>
+    <model-viewer
+      id="bottle-viewer-v6"
+      src="/models/botella3d.glb"
+      poster={botella2d.src}
+      alt="Botella BIG Cola en 3D"
+      camera-orbit="6deg 78deg 100%"
+      field-of-view="26deg"
+      exposure="1.15"
+      shadow-intensity="0"
+      camera-controls
+      disable-zoom
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
+      class="pointer-events-auto relative h-full w-full cursor-grab active:cursor-grabbing"
+      style="--poster-color: transparent; background-color: transparent;"
+    >
+      <Image slot="poster" src={botella2d} alt="Botella BIG Cola" width={520} height={780} class="mx-auto h-full w-auto object-contain" loading="eager" />
+    </model-viewer>
+  </div>
+
+  <div class="relative mx-auto flex h-[calc(100svh-6rem)] max-w-7xl flex-col justify-end px-5 pb-10 sm:px-8">
+    <div class="relative z-10 flex flex-col items-center gap-5 text-center">
+      <p class="t-fg-muted reveal font-display max-w-lg text-lg font-medium sm:text-xl">
+        Grandes Marcas, <span class="t-fg font-bold">Grandes Talentos.</span>
+      </p>
+
+      <div class="grid w-full max-w-xl gap-3 sm:grid-cols-2">
+        <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+          <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Alcance</p>
+          <p class="t-fg-muted mt-1 text-sm">Niveles N1 y N2 evaluados en Crecer y Radar de Talento</p>
+        </div>
+        <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+          <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Uso</p>
+          <p class="t-fg-muted mt-1 text-sm">Base para evaluación, feedback y desarrollo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .net-line {
+    animation: net-flow 3.6s linear infinite;
+  }
+  .net-line-faint {
+    opacity: 0.5;
+  }
+  @keyframes net-flow {
+    to {
+      stroke-dashoffset: -30;
+    }
+  }
+  .net-hub {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: net-hub-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes net-hub-pulse {
+    0%,
+    100% {
+      transform: scale(0.9);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+  }
+  .net-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: net-node-pulse 2.8s ease-in-out infinite;
+  }
+  @keyframes net-node-pulse {
+    0%,
+    100% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 1;
+    }
+  }
+  .net-label {
+    animation: net-label-in 0.8s ease-out forwards;
+  }
+  @keyframes net-label-in {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+    }
+    to {
+      opacity: 0.75;
+      filter: blur(0);
+    }
+  }
+</style>
+
+<script>
+  import '@google/model-viewer';
+  import { initBottleSway } from '../../scripts/bottle-sway';
+  import { initThemeToggle } from '../../scripts/theme-toggle';
+
+  initThemeToggle('inicio-textura-6');
+
+  const viewer = document.querySelector<HTMLElement>('model-viewer#bottle-viewer-v6');
+  if (viewer) {
+    initBottleSway(viewer, { amplitude: 22, swaySpeed: 0.0003, defaultPhi: 78, radius: '100%' });
+  }
+
+  const section = document.querySelector<HTMLElement>('#inicio-textura-6');
+  const iLetter = document.querySelector<HTMLElement>('#tex6-i-letter');
+  const slot = document.querySelector<HTMLElement>('#tex6-bottle-slot');
+
+  const positionBottle = () => {
+    if (!section || !iLetter || !slot) return;
+    const sectionRect = section.getBoundingClientRect();
+    const iRect = iLetter.getBoundingClientRect();
+    const width = Math.max(iRect.width, 64);
+    const centerX = iRect.left + iRect.width / 2;
+    slot.style.left = `${centerX - width / 2 - sectionRect.left}px`;
+    slot.style.top = `${iRect.top - sectionRect.top}px`;
+    slot.style.width = `${width}px`;
+    slot.style.height = `${iRect.height}px`;
+  };
+
+  positionBottle();
+  document.fonts?.ready.then(positionBottle);
+  window.addEventListener('resize', positionBottle);
+</script>

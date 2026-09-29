@@ -1,0 +1,129 @@
+---
+const crecerEscala = [
+  {
+    id: 1,
+    nombre: 'Comportamiento observado casi nunca',
+    items: ['No hay evidencia'],
+    fondo: 'bg-level-red',
+  },
+  {
+    id: 2,
+    nombre: 'Comportamiento observado algunas veces sí otras no',
+    items: ['Evidencia inconsistente'],
+    fondo: 'bg-level-amber',
+  },
+  {
+    id: 3,
+    nombre: 'Comportamiento observado esperado',
+    items: ['Evidencia clara'],
+    fondo: 'bg-level-green',
+  },
+  {
+    id: 4,
+    nombre: 'Comportamiento observado muchas veces',
+    items: ['Aporta valor adicional'],
+    fondo: 'bg-level-indigo',
+  },
+  {
+    id: 5,
+    nombre: 'Comportamiento observado siempre',
+    items: ['Genera impacto', 'Es referente incluso fuera de su área'],
+    fondo: 'bg-level-plum',
+  },
+];
+
+const radarNiveles = [
+  {
+    id: 1,
+    nombre: 'No Cumple',
+    texto: 'Aún no cumple el nivel mínimo esperado de la competencia.',
+    fondo: 'bg-level-red',
+  },
+  {
+    id: 2,
+    nombre: 'En desarrollo',
+    texto: 'Presenta avances, pero aún requiere acompañamiento o fortalecimiento.',
+    fondo: 'bg-level-amber',
+  },
+  {
+    id: 3,
+    nombre: 'Cumple',
+    texto: 'Demuestra el nivel esperado de la competencia para el rol.',
+    fondo: 'bg-level-green',
+  },
+  {
+    id: 4,
+    nombre: 'Supera lo esperado',
+    texto: 'Evidencia un dominio sobresaliente y sostenido de la competencia.',
+    fondo: 'bg-level-blue',
+  },
+];
+---
+
+<section id="escala" data-tabs class="relative bg-white py-24 sm:py-32">
+  <div class="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal text-center">
+      <h2 class="font-display text-4xl font-bold text-ink-900 sm:text-5xl">Escala de medición</h2>
+    </div>
+
+    <div class="reveal mx-auto mt-10 flex w-fit gap-1 rounded-full border border-ink-200 bg-ink-100 p-1 shadow-sm">
+      <button
+        type="button"
+        data-tab="crecer"
+        class="tab-btn is-active rounded-full px-5 py-2.5 text-sm font-semibold text-ink-500 transition"
+      >
+        CRECER · N2
+      </button>
+      <button
+        type="button"
+        data-tab="radar"
+        class="tab-btn rounded-full px-5 py-2.5 text-sm font-semibold text-ink-500 transition"
+      >
+        Radar de Talento · N1
+      </button>
+    </div>
+
+    <div class="reveal mt-14">
+      <div data-tab-panel="crecer" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {
+          crecerEscala.map((n) => (
+            <div
+              class={`group flex flex-col items-center rounded-xl p-6 text-center text-white shadow-lg transition hover:-translate-y-1.5 ${n.fondo}`}
+            >
+              <span class="font-display grid size-16 place-items-center rounded-full bg-white/20 text-3xl font-black leading-none ring-1 ring-white/30 transition group-hover:scale-105">
+                {n.id}
+              </span>
+              <p class="font-display mt-4 text-base font-bold leading-snug">{n.nombre}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-white/80">{n.items.join(' · ')}</p>
+            </div>
+          ))
+        }
+        <p class="col-span-full mt-2 text-center text-xs text-ink-500">Fuente: CRECER</p>
+      </div>
+
+      <div data-tab-panel="radar" class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          radarNiveles.map((n) => (
+            <div
+              class={`group flex flex-col items-center rounded-xl p-6 text-center text-white shadow-lg transition hover:-translate-y-1.5 ${n.fondo}`}
+            >
+              <span class="font-display grid size-16 place-items-center rounded-full bg-white/20 text-3xl font-black leading-none ring-1 ring-white/30 transition group-hover:scale-105">
+                {n.id}
+              </span>
+              <p class="font-display mt-4 text-base font-bold leading-snug">{n.nombre}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-white/80">{n.texto}</p>
+            </div>
+          ))
+        }
+        <p class="col-span-full mt-2 text-center text-xs text-ink-500">Fuente: Gestión del Talento Perú</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tab-btn.is-active {
+    background: var(--color-ink-900);
+    color: white;
+  }
+</style>

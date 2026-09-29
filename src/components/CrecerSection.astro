@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import crecerLogo from '../assets/crecer-logo-sinfondo.png';
+import { CATEGORIAS_CRECER } from '../data/competencias';
+
+const nivelStyle: Record<string, { dot: string; text: string; bg: string }> = {
+  A: { dot: 'bg-emerald-500', text: 'text-emerald-700', bg: 'bg-emerald-50' },
+  B: { dot: 'bg-lime-500', text: 'text-lime-700', bg: 'bg-lime-50' },
+  C: { dot: 'bg-amber-500', text: 'text-amber-700', bg: 'bg-amber-50' },
+  D: { dot: 'bg-brand-red', text: 'text-brand-red', bg: 'bg-brand-red-50' },
+};
+---
+
+<section id="crecer" class="relative bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <h2 class="font-display text-4xl font-bold text-ink-900 sm:text-5xl">Competencias CRECER</h2>
+      </div>
+      <Image src={crecerLogo} alt="CRECER" width={799} height={312} class="h-16 w-auto sm:h-20" loading="lazy" decoding="async" />
+    </div>
+
+        <div class="reveal sticky top-[81px] z-20 -mx-5 mt-10 flex gap-2 overflow-x-auto bg-white/90 px-5 py-3 shadow-[0_-1px_0_rgba(0,0,0,0.08)] backdrop-blur sm:mx-0 sm:rounded-full sm:border sm:border-ink-200 sm:px-2">
+      {
+        CATEGORIAS_CRECER.map((cat) => (
+          <a
+            href={`#crecer-${cat.slug}`}
+            data-quickjump-link="crecer"
+            class="quickjump-pill shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-ink-700 transition hover:bg-crecer-green/10 hover:text-crecer-green"
+          >
+            {cat.nombre}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 space-y-20">
+      {
+        CATEGORIAS_CRECER.map((cat, catIndex) => (
+          <div id={`crecer-${cat.slug}`} class="scroll-mt-32">
+            <div class="reveal relative overflow-hidden rounded-3xl bg-crecer-green" style="container-type: inline-size;">
+              <span
+                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 select-none font-display font-black leading-none text-white/10"
+                style="font-size: clamp(5.7rem, 24.7cqw, 16.15rem);"
+              >
+                {String(catIndex + 1).padStart(2, '0')}
+              </span>
+              <div class="relative flex flex-col gap-3 p-8 sm:p-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-white/70">
+                  Categoría {catIndex + 1} de {CATEGORIAS_CRECER.length}
+                </span>
+                <h3 class="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl">{cat.nombre}</h3>
+                <p class="max-w-md text-sm font-semibold text-white/85 sm:text-base">{cat.rol}</p>
+              </div>
+            </div>
+            <p class="reveal mt-5 text-ink-500">{cat.descripcion}</p>
+
+            <div class="mt-8 grid gap-4">
+              {cat.competencias.map((comp) => (
+                <div data-level-card class="reveal overflow-hidden rounded-2xl border border-ink-200 bg-white transition hover:border-crecer-green/40">
+                  <button
+                    type="button"
+                    data-accordion-toggle
+                    aria-expanded="false"
+                    class="flex w-full items-start justify-between gap-4 px-6 py-5 text-left"
+                  >
+                    <div>
+                      <h4 class="font-display text-lg font-bold text-ink-900">{comp.nombre}</h4>
+                      <p class="mt-1.5 text-sm text-ink-500">{comp.descripcion}</p>
+                      {comp.fuente && <p class="mt-2 text-[11px] font-semibold uppercase tracking-wide text-ink-500/70">Fuente: {comp.fuente}</p>}
+                    </div>
+                    <span class="mt-1 grid size-9 shrink-0 place-items-center rounded-full bg-ink-100 text-ink-700 transition group-[[aria-expanded=true]]:rotate-45">
+                      <svg data-chevron width="14" height="14" viewBox="0 0 16 16" fill="none" class="transition-transform">
+                        <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                      </svg>
+                    </span>
+                  </button>
+
+                  <div class="accordion-panel">
+                    <div>
+                      <div class="border-t border-ink-100 bg-ink-100/40 px-6 py-6">
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-ink-500">
+                          {comp.comportamientosLabel}
+                        </p>
+
+                        <div class="mt-4 flex flex-wrap gap-1.5">
+                          {comp.niveles.map((n, ni) => (
+                            <button
+                              type="button"
+                              data-level-btn={n.id}
+                              class:list={[
+                                'level-btn rounded-full border px-3.5 py-1.5 text-xs font-bold transition',
+                                nivelStyle[n.id].text,
+                                ni === 1 ? 'is-active' : '',
+                              ]}
+                              style="border-color: currentColor"
+                            >
+                              <span class={`mr-1.5 inline-block size-1.5 rounded-full ${nivelStyle[n.id].dot} align-middle`} />
+                              {n.nombre}
+                            </button>
+                          ))}
+                        </div>
+
+                        {comp.niveles.map((n, ni) => (
+                          <div
+                            data-level-panel={n.id}
+                            class:list={['mt-4 rounded-xl p-5', nivelStyle[n.id].bg, ni === 1 ? '' : 'hidden']}
+                          >
+                            <ul class="space-y-2.5">
+                              {n.items.map((item) => (
+                                <li class="flex items-start gap-2.5 text-sm text-ink-800">
+                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class={`mt-0.5 shrink-0 ${nivelStyle[n.id].text}`}>
+                                    <path d="M3 8.5l3.2 3.2L13 4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                  </svg>
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p class="reveal mt-5 border-t border-ink-200 pt-4 text-xs font-bold uppercase tracking-[0.18em] text-ink-500">
+              Fuente: CRECER
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .accordion-panel > div {
+    overflow: hidden;
+  }
+  [data-accordion-toggle][aria-expanded='true'] [data-chevron] {
+    transform: rotate(45deg);
+  }
+  .level-btn {
+    opacity: 0.55;
+  }
+  .level-btn.is-active {
+    opacity: 1;
+    box-shadow: 0 0 0 1px currentColor inset;
+  }
+  .quickjump-pill.is-active {
+    background: var(--color-crecer-green);
+    color: white;
+  }
+</style>

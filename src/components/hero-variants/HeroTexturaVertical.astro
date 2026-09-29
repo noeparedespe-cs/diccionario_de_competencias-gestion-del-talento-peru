@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets';
+import botella2d from '../../assets/botella2d.png';
+import ThemeToggleButton from './ThemeToggleButton.astro';
+
+const microLabels = ['N1', 'N2', 'CRECER', 'RADAR DE TALENTO', 'FEEDBACK', 'DESARROLLO'];
+const topParticles = Array.from({ length: 24 }, (_, i) => i);
+const bottomParticles = Array.from({ length: 24 }, (_, i) => i);
+---
+
+<section id="inicio-textura-4" class="theme noise relative min-h-[100svh] overflow-hidden pt-24" data-theme="dark">
+  <ThemeToggleButton />
+  <div class="t-grid-lines pointer-events-none absolute inset-0 opacity-100"></div>
+
+    <div class="pointer-events-none absolute inset-x-0 top-0 flex h-40 flex-wrap items-start justify-center gap-x-8 gap-y-4 overflow-hidden px-8 pt-6 opacity-70 sm:h-56" aria-hidden="true">
+    {topParticles.map((i) => (
+      <span
+        class="particle-fade rounded-full bg-brand-red"
+        style={`width:${4 + (i % 3) * 3}px;height:${4 + (i % 3) * 3}px;animation-delay:${(i % 8) * 0.35}s;`}
+      />
+    ))}
+  </div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 flex h-40 flex-wrap items-end justify-center gap-x-8 gap-y-4 overflow-hidden px-8 pb-6 opacity-70 sm:h-56" aria-hidden="true">
+    {bottomParticles.map((i) => (
+      <span
+        class="particle-fade rounded-full bg-brand-yellow"
+        style={`width:${4 + (i % 3) * 3}px;height:${4 + (i % 3) * 3}px;animation-delay:${(i % 8) * 0.35 + 0.2}s;`}
+      />
+    ))}
+  </div>
+
+    <div class="pointer-events-none absolute -left-20 -top-10 size-80 rounded-full bg-brand-red/15 blur-[110px] animate-float-slow" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-20 -bottom-10 size-80 rounded-full bg-brand-yellow/20 blur-[110px] animate-float-slower" aria-hidden="true"></div>
+
+    <div class="pointer-events-none absolute left-6 top-28 hidden flex-col gap-3 sm:flex lg:left-14" aria-hidden="true">
+    {microLabels.slice(0, 2).map((label, i) => <span class="label-pulse t-fg-muted font-display text-xs font-bold uppercase tracking-[0.3em] opacity-60" style={`animation-delay:${i * 0.6}s`}>{label}</span>)}
+  </div>
+  <div class="pointer-events-none absolute right-6 top-28 hidden flex-col items-end gap-3 sm:flex lg:right-14" aria-hidden="true">
+    {microLabels.slice(2, 4).map((label, i) => <span class="label-pulse t-fg-muted font-display text-xs font-bold uppercase tracking-[0.3em] opacity-60" style={`animation-delay:${i * 0.6 + 0.3}s`}>{label}</span>)}
+  </div>
+  <div class="pointer-events-none absolute bottom-10 left-6 hidden flex-col gap-3 sm:flex lg:left-14" aria-hidden="true">
+    <span class="label-pulse t-fg-muted font-display text-xs font-bold uppercase tracking-[0.3em] opacity-60" style="animation-delay:0.9s">{microLabels[4]}</span>
+  </div>
+  <div class="pointer-events-none absolute bottom-10 right-6 hidden flex-col items-end gap-3 sm:flex lg:right-14" aria-hidden="true">
+    <span class="label-pulse t-fg-muted font-display text-xs font-bold uppercase tracking-[0.3em] opacity-60" style="animation-delay:1.2s">{microLabels[5]}</span>
+  </div>
+
+    <div class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 sm:gap-4" aria-hidden="true">
+    <p class="t-outline-text font-wordmark m-0 select-none whitespace-nowrap text-center text-[min(26vh,28vw)] leading-none sm:text-[min(32vh,22vw)] lg:text-[min(36vh,16vw)]">
+      B<span id="tex4-i-letter" class="inline-block text-transparent [-webkit-text-stroke:0]">I</span>G
+    </p>
+    <p class="text-gradient-warm font-wordmark m-0 select-none whitespace-nowrap text-center text-[min(26vh,13vw)] leading-none sm:text-[min(32vh,10vw)] lg:text-[min(36vh,8vw)]">
+      TALENT
+    </p>
+  </div>
+
+    <div id="tex4-bottle-slot" class="absolute z-10">
+    <div class="pointer-events-none absolute -inset-x-[150%] -inset-y-[35%] rounded-full bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,rgba(198,24,24,0.25),transparent_72%)]"></div>
+    <model-viewer
+      id="bottle-viewer-v4"
+      src="/models/botella3d.glb"
+      poster={botella2d.src}
+      alt="Botella BIG Cola en 3D"
+      camera-orbit="6deg 78deg 100%"
+      field-of-view="26deg"
+      exposure="1.15"
+      shadow-intensity="0"
+      camera-controls
+      disable-zoom
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
+      class="pointer-events-auto relative h-full w-full cursor-grab active:cursor-grabbing"
+      style="--poster-color: transparent; background-color: transparent;"
+    >
+      <Image slot="poster" src={botella2d} alt="Botella BIG Cola" width={520} height={780} class="mx-auto h-full w-auto object-contain" loading="eager" />
+    </model-viewer>
+  </div>
+
+  <div class="relative mx-auto flex h-[calc(100svh-6rem)] max-w-7xl flex-col justify-end px-5 pb-10 sm:px-8">
+    <div class="relative z-10 flex flex-col items-center gap-5 text-center">
+      <p class="t-fg-muted reveal font-display max-w-lg text-lg font-medium sm:text-xl">
+        Grandes Marcas, <span class="t-fg font-bold">Grandes Talentos.</span>
+      </p>
+
+      <div class="grid w-full max-w-xl gap-3 sm:grid-cols-2">
+        <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+          <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Alcance</p>
+          <p class="t-fg-muted mt-1 text-sm">Niveles N1 y N2 evaluados en Crecer y Radar de Talento</p>
+        </div>
+        <div class="t-card t-border rounded-2xl border p-4 text-left backdrop-blur-md">
+          <p class="text-xs font-semibold uppercase tracking-wider text-brand-red">Uso</p>
+          <p class="t-fg-muted mt-1 text-sm">Base para evaluación, feedback y desarrollo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes particle-fade {
+    0%,
+    100% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .particle-fade {
+    animation: particle-fade 2.8s ease-in-out infinite;
+  }
+  @keyframes label-pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  .label-pulse {
+    animation: label-pulse 3.6s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  import '@google/model-viewer';
+  import { initBottleSway } from '../../scripts/bottle-sway';
+  import { initThemeToggle } from '../../scripts/theme-toggle';
+
+  initThemeToggle('inicio-textura-4');
+
+  const viewer = document.querySelector<HTMLElement>('model-viewer#bottle-viewer-v4');
+  if (viewer) {
+    initBottleSway(viewer, { amplitude: 22, swaySpeed: 0.0003, defaultPhi: 78, radius: '100%' });
+  }
+
+  const section = document.querySelector<HTMLElement>('#inicio-textura-4');
+  const iLetter = document.querySelector<HTMLElement>('#tex4-i-letter');
+  const slot = document.querySelector<HTMLElement>('#tex4-bottle-slot');
+
+  const positionBottle = () => {
+    if (!section || !iLetter || !slot) return;
+    const sectionRect = section.getBoundingClientRect();
+    const iRect = iLetter.getBoundingClientRect();
+    const width = Math.max(iRect.width, 64);
+    const centerX = iRect.left + iRect.width / 2;
+    slot.style.left = `${centerX - width / 2 - sectionRect.left}px`;
+    slot.style.top = `${iRect.top - sectionRect.top}px`;
+    slot.style.width = `${width}px`;
+    slot.style.height = `${iRect.height}px`;
+  };
+
+  positionBottle();
+  document.fonts?.ready.then(positionBottle);
+  window.addEventListener('resize', positionBottle);
+</script>

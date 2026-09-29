@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import radarLogo from '../assets/radar-de-talento-white.png';
+import crecerLogo from '../assets/crecer-white.png';
+---
+
+<footer class="noise relative overflow-hidden bg-ink-900 pt-24">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_100%,rgba(198,24,24,0.3),transparent_60%)]"></div>
+
+  <div class="relative mx-auto max-w-7xl px-5 text-center sm:px-8">
+    <p class="reveal text-xs font-bold uppercase tracking-[0.3em] text-brand-yellow">Diccionario de Competencias</p>
+    <h2 class="font-wordmark reveal mt-4 leading-[0.78] tracking-tight text-white">
+      <span class="block text-[24vw] sm:text-[12vw] lg:text-9xl">BIG</span>
+      <span class="text-gradient-fire -mt-1 block pl-[26vw] text-[12vw] sm:-mt-2 sm:pl-[15vw] sm:text-[6vw] lg:pl-52 lg:text-7xl">
+        TALENT
+      </span>
+    </h2>
+    <p class="font-display reveal mt-4 text-xl font-medium text-white/70 sm:text-2xl">
+      Grandes Marcas, Grandes Talentos.
+    </p>
+    <p class="reveal mt-2 text-xs font-semibold uppercase tracking-[0.25em] text-white/40">Gestión del Talento Perú</p>
+
+    <div class="reveal mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+      <Image src={radarLogo} alt="Radar de Talento" width={170} height={41} class="h-8 w-auto opacity-80" loading="lazy" decoding="async" />
+      <Image src={crecerLogo} alt="CRECER" width={150} height={58} class="h-9 w-auto opacity-80" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="reveal mt-14 flex flex-wrap justify-center gap-2 border-t border-white/10 py-8">
+      {
+        [
+          ['Inicio', '#inicio'],
+          ['Guía', '#guia'],
+          ['Mapa', '#mapa'],
+          ['Radar N1', '#radar'],
+          ['CRECER', '#crecer'],
+          ['Categoría', '#categoria'],
+          ['Escala de medición', '#escala'],
+        ].map(([label, href]) => (
+          <a href={href} class="rounded-full px-4 py-2 text-sm font-medium text-white/50 transition hover:bg-white/10 hover:text-white">
+            {label}
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="pb-10 text-xs text-white/30">Diccionario de Competencias BIGTALENT · Evaluación en CRECER y Radar de Talento</p>
+  </div>
+</footer>

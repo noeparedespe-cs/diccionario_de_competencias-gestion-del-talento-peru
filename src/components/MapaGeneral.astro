@@ -1,0 +1,94 @@
+---
+import { CATEGORIAS_CRECER, AREAS_RADAR } from '../data/competencias';
+---
+
+<section id="mapa" class="relative bg-ink-100/50 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal text-center">
+      <h2 class="font-display text-4xl font-bold text-ink-900 sm:text-5xl">Mapa general de competencias</h2>
+    </div>
+
+        <div class="mt-16">
+      <div class="reveal mb-6 flex items-center gap-3">
+        <span class="h-px flex-1 bg-ink-200"></span>
+        <span class="text-xs font-bold uppercase tracking-[0.2em]" style="color:var(--color-radar-navy)">
+          Radar de Talento · N1
+        </span>
+        <span class="h-px flex-1 bg-ink-200"></span>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          AREAS_RADAR.map((area) => (
+            <a
+              href={`#radar-${area.slug}`}
+              class="reveal group relative flex flex-col overflow-hidden rounded-2xl border border-ink-200 bg-white p-5 transition hover:-translate-y-1.5 hover:shadow-[0_25px_60px_-30px_rgba(10,26,143,0.45)]"
+            >
+              <div
+                class="absolute right-0 top-0 size-20 -translate-y-1/2 translate-x-1/2 rounded-full transition group-hover:scale-150"
+                style="background: color-mix(in srgb, var(--color-radar-navy) 10%, transparent)"
+              />
+              <h3 class="relative font-display text-lg font-bold text-ink-900">{area.nombre}</h3>
+              <p class="relative mt-1.5 text-sm text-ink-500">{area.descripcion}</p>
+              <p class="relative mt-4 text-xs font-semibold uppercase tracking-wide text-ink-500">
+                {area.competencias.length} competencia{area.competencias.length !== 1 ? 's' : ''}
+              </p>
+              <span
+                class="relative mt-3 inline-flex items-center gap-1.5 text-sm font-bold"
+                style="color:var(--color-radar-navy)"
+              >
+                Ver detalle
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" class="transition group-hover:translate-x-1">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+        <div class="mt-16">
+      <div class="reveal mb-6 flex items-center gap-3">
+        <span class="h-px flex-1 bg-ink-200"></span>
+        <span class="text-xs font-bold uppercase tracking-[0.2em] text-crecer-green">CRECER · Niveles N2</span>
+        <span class="h-px flex-1 bg-ink-200"></span>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+        {
+          CATEGORIAS_CRECER.map((cat) => (
+            <a
+              href={`#crecer-${cat.slug}`}
+              class="reveal group relative flex flex-col overflow-hidden rounded-2xl border border-ink-200 bg-white p-6 transition hover:-translate-y-1.5 hover:shadow-[0_25px_60px_-30px_rgba(43,163,85,0.5)]"
+            >
+              <div class="absolute right-0 top-0 size-24 -translate-y-1/2 translate-x-1/2 rounded-full bg-crecer-green/10 transition group-hover:scale-150" />
+              <span class="relative font-display text-3xl font-black text-ink-900/10">
+                {String(CATEGORIAS_CRECER.indexOf(cat) + 1).padStart(2, '0')}
+              </span>
+              <h3 class="relative font-display mt-2 text-xl font-bold text-ink-900">{cat.nombre}</h3>
+              <p class="relative mt-1 text-xs font-medium uppercase tracking-wide text-ink-500">{cat.rol}</p>
+              <p class="relative mt-3 text-sm text-ink-500">{cat.descripcion}</p>
+              <div class="relative mt-5 flex flex-wrap gap-1.5">
+                {cat.competencias.slice(0, 4).map((c) => (
+                  <span class="rounded-full bg-ink-100 px-2.5 py-1 text-[11px] font-medium text-ink-700">
+                    {c.nombre}
+                  </span>
+                ))}
+                {cat.competencias.length > 4 && (
+                  <span class="rounded-full bg-ink-100 px-2.5 py-1 text-[11px] font-medium text-ink-500">
+                    +{cat.competencias.length - 4} más
+                  </span>
+                )}
+              </div>
+              <span class="relative mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-crecer-green">
+                Ver competencias
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" class="transition group-hover:translate-x-1">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
